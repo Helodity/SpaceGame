@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c062a21ee84becd5a81da6bfe9a141a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 5
   bulletSpeed: 15
   collisionParticlePrefab: {fileID: 3874745032101415767, guid: ddc711e3f6a0954b495677dcaa080552, type: 3}
 --- !u!54 &610801540107005416

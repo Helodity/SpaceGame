@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour
     PlayerMovement pMovement;
     PlayerShooting pShooting;
     PlayerHealth pHealth;
+    [SerializeField] Slider shieldSlider;
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider energySlider;
 
@@ -25,5 +26,6 @@ public class PlayerUI : MonoBehaviour
     {
         energySlider.value = pShooting.GetEnergyRatio();
         healthSlider.value = pHealth.getHealthRatio();
+        shieldSlider.value = pHealth.getShieldRatio();
     }
 }

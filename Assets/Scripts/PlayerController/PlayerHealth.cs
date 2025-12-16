@@ -3,7 +3,9 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IDamagable
 {
     [SerializeField] int maxHealth;
-    [SerializeField] float healthRegen;
+    [SerializeField] int maxShield;
+    [SerializeField] float shieldRegen;
+    float currentShield;
     float currentHealth;
     
     [Header("Effects")]
@@ -17,11 +19,12 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     {
         rb = GetComponent<Rigidbody>();
         currentHealth = maxHealth;
+        currentShield = maxShield;
     }
     void Update()
     {
         //Apply health regen
-        modifyHealth(healthRegen * Time.deltaTime);
+        modifyShield(shieldRegen * Time.deltaTime);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -30,17 +33,23 @@ public class PlayerHealth : MonoBehaviour, IDamagable
         if(amt > 2)
         {
             playCollisionSFX(collision.GetContact(0).point);
-            modifyHealth(-rb.velocity.magnitude);
+            takeDamage(amt);
         }
     }
     #endregion
 
-    public void modifyHealth(float amt)
+    void modifyShield(float amt)
     {
-        if(amt < 0)
+        currentShield += amt;
+        if(currentShield <= 0)
         {
-            playDamageSFX();
+            modifyHealth(currentShield);
         }
+        currentShield = Mathf.Clamp(currentShield, 0, maxShield);
+    }
+
+    void modifyHealth(float amt)
+    {
         currentHealth += amt;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
@@ -50,6 +59,10 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     public float getHealthRatio()
     {
         return currentHealth / maxHealth;
+    }
+    public float getShieldRatio()
+    {
+        return currentShield / maxShield;
     }
     #endregion
 
@@ -66,9 +79,10 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     #endregion
 
     #region IDamagable implementation
-    public void takeDamage(int damage)
+    public void takeDamage(float damage)
     {
-        modifyHealth(-damage);
+        playDamageSFX();
+        modifyShield(-damage);
     }
     #endregion
 }

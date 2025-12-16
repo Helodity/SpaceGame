@@ -1,4 +1,4 @@
 public interface IDamagable
 {
-    public void takeDamage(int damage);
+    public void takeDamage(float damage);
 }
