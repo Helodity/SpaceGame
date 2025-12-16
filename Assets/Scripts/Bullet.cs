@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] int damage;
-    [SerializeField] float bulletSpeed;
+    BulletData data;
     [SerializeField] ParticleSystem collisionParticlePrefab;
     Rigidbody rb;
     Vector3 lastPos;
-    float lifetime = 5;
     void Awake()
     {
         lastPos = transform.position;
+        data.lifetime = 5; //Something to just let it be set.
     }
     void Update()
     {
-        lifetime -= Time.deltaTime;
-        if(lifetime <= 0)
+        data.lifetime -= Time.deltaTime;
+        if(data.lifetime <= 0)
         {
             Destroy(gameObject);
         }
@@ -25,11 +24,11 @@ public class Bullet : MonoBehaviour
         lastPos = transform.position;
     }
 
-    public void Init(Vector2 parentVelocity)
+    public void Init(Vector2 parentVelocity, Vector2 dir, BulletData settings)
     {
+        data = settings;
         rb = GetComponent<Rigidbody>();
-        rb.velocity = (Vector2)(transform.right * bulletSpeed) + parentVelocity;
-        lifetime = 1;
+        rb.velocity = (dir * settings.speed) + parentVelocity;
     }
 
     void OnTriggerEnter(Collider other)
@@ -37,7 +36,7 @@ public class Bullet : MonoBehaviour
         IDamagable damagable = other.GetComponent<IDamagable>();
         if(damagable != null)
         {
-            damagable.takeDamage(damage);
+            damagable.takeDamage(data.damage);
         }
 
         ParticleSystem newSys = Instantiate(collisionParticlePrefab, other.ClosestPoint(lastPos), Quaternion.identity);
