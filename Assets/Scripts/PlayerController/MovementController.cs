@@ -36,8 +36,10 @@ public abstract class MovementController : MonoBehaviour
 
     protected void Update()
     {
-        rotatePlayer();
-        applyAcceleration();
+        applyRotation();
+        Vector2 moveVec = getAccelerationVector(useDampeners);
+        updateThrusterParticles(moveVec);
+        applyAcceleration(moveVec);
     }
 
     void OnDrawGizmos()
@@ -55,12 +57,7 @@ public abstract class MovementController : MonoBehaviour
     }
     #endregion
 
-    #region Abstract Functions
-    protected abstract Vector3 getTargetPos();
-    protected abstract float getTargetAngle();
-    #endregion
-
-    protected void rotatePlayer()
+    void applyRotation()
     {
         float delta = Mathf.DeltaAngle(getCurrentAngle(), getTargetAngle());
         curTurnSpeed.SetValue(MathUtils.BetterSign(delta) * maxTurnSpeed);
@@ -79,20 +76,8 @@ public abstract class MovementController : MonoBehaviour
         transform.Rotate(Vector3.up * yAngle.GetValue(), Space.World);
         transform.Rotate(Vector3.forward * zAngle, Space.World);
     }
-
-    protected Vector3 getForwardVector()
+    void applyAcceleration(Vector2 moveVec)
     {
-        Vector3 vec = transform.right;
-        vec.z = 0;
-        return vec.normalized;
-    }
-
-    protected void applyAcceleration()
-    {
-        Vector2 moveVec = getAccelerationVector(useDampeners);
-
-        updateThrusterParticles(moveVec);
-
         rb.velocity += transform.TransformVector(moveVec);
 
         //Limit magnitude from acceleration
@@ -101,8 +86,7 @@ public abstract class MovementController : MonoBehaviour
             rb.velocity = rb.velocity.normalized * maxMagnitude;
         }
     }
-
-    protected void updateThrusterParticles(Vector2 moveDir)
+    void updateThrusterParticles(Vector2 moveDir)
     {
         float x = MathUtils.BetterSign(moveDir.x);
         switch(x)
@@ -138,6 +122,14 @@ public abstract class MovementController : MonoBehaviour
         }
     }
 
+    #region Getters
+    protected Vector3 getForwardVector()
+    {
+        Vector3 vec = transform.right;
+        vec.z = 0;
+        return vec.normalized;
+    }
+
     protected float getCurrentAngle()
     {
         return Vector2.SignedAngle(Vector2.right, getForwardVector());
@@ -171,7 +163,6 @@ public abstract class MovementController : MonoBehaviour
         }
     }
 
-
     protected Vector2 getMaxMagnitude(Vector2 dir)
     {
         if(dir == Vector2.zero) return Vector2.zero;
@@ -180,4 +171,11 @@ public abstract class MovementController : MonoBehaviour
         float maxXspeed = Mathf.Cos(angle) < 0 ? reverseMoveSpeed : forwardMoveSpeed;
         return new Vector2(maxXspeed * Mathf.Cos(angle), sideMoveSpeed * Mathf.Sin(angle));
     }
+
+    #endregion
+
+    #region Abstract Functions
+    protected abstract Vector3 getTargetPos();
+    protected abstract float getTargetAngle();
+    #endregion
 }

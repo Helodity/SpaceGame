@@ -22,17 +22,7 @@ public class PlayerMovement : MovementController
     }
     #endregion
 
-    Vector3 getMousePos()
-    {
-        return Camera.main.ScreenToWorldPoint(
-                new Vector3(
-                    Input.mousePosition.x, 
-                    Input.mousePosition.y, 
-                    transform.position.z - Camera.main.transform.position.z
-                )
-            );
-    }
-
+    #region Abstract class implementation 
     protected override Vector3 getTargetPos()
     {
         if (Input.GetMouseButton(1))
@@ -46,4 +36,19 @@ public class PlayerMovement : MovementController
     {
         return Vector2.SignedAngle(Vector2.right, getMousePos() - transform.position);
     }
+    #endregion
+
+    #region Getters
+    Vector3 getMousePos()
+    {
+        return Camera.main.ScreenToWorldPoint(
+            new Vector3(
+                Input.mousePosition.x, 
+                Input.mousePosition.y, 
+                transform.position.z - Camera.main.transform.position.z
+            )
+        );
+    }
+    #endregion
+
 }
