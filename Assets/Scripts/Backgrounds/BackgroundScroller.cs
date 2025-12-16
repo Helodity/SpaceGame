@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
@@ -13,7 +11,7 @@ public class BackgroundScroller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ScrollMat = GetComponent<MeshRenderer>().sharedMaterial;
+        ScrollMat = GetComponent<MeshRenderer>().material;
         ppu = 1.0f / transform.localScale.y;
     }
 

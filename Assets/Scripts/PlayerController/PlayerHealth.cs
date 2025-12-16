@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour, IDamagable
 
     void OnCollisionEnter(Collision collision)
     {
-        float amt = rb.velocity.magnitude;
+        float amt = collision.relativeVelocity.magnitude;
         if(amt > 2)
         {
             playCollisionSFX(collision.GetContact(0).point);

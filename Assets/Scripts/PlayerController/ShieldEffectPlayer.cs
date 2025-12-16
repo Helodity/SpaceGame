@@ -5,11 +5,11 @@ public class ShieldEffectPlayer : MonoBehaviour
     [SerializeField] float maxAlpha;
     [SerializeField] float duration;
     float durationRemaining;
-    Material shieldMat;
+    Material[] materials;
 
     void Awake()
     {
-        shieldMat = GetComponent<MeshRenderer>().material;
+        materials = GetComponent<MeshRenderer>().materials;
         durationRemaining = 0;
     }
 
@@ -23,7 +23,10 @@ public class ShieldEffectPlayer : MonoBehaviour
         }
 
         float val = MathUtils.EaseIn(durationRemaining / duration);
-        shieldMat.SetFloat("_Alpha", maxAlpha * val);
+        foreach(Material m in materials)
+        {
+            m.SetFloat("_Alpha", maxAlpha * val);
+        }
 
     }
     public void playAnim()
