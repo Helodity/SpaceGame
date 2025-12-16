@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     [Header("Bullet")]
-    [SerializeField] Transform bulletSpawnPos;
+    [SerializeField] List<Transform> bulletSpawnPos;
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] float bulletsPerSecond;
     [SerializeField] float shootKnockback;
@@ -32,19 +32,27 @@ public class PlayerShooting : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            if(shootDelay <= 0 && currentEnergy > energyCost)
-            {
-                Bullet b = Instantiate(bulletPrefab, bulletSpawnPos.position, transform.rotation);
-                b.Init(rb.velocity);
-                rb.velocity += transform.right * shootKnockback;
-                shootDelay = 1 / bulletsPerSecond;
-                currentEnergy -= energyCost;
-            }
+            shoot();
         }
         shootDelay -= Time.deltaTime;
 
         currentEnergy += energyRegen * Time.deltaTime;
         currentEnergy = Mathf.Clamp(currentEnergy, 0, maxEnergy);
+    }
+    void shoot()
+    {
+        if(shootDelay > 0 || currentEnergy < energyCost) return;
+        
+        foreach(Transform t in bulletSpawnPos)
+        {
+            if(currentEnergy < energyCost) break;
+            Bullet b = Instantiate(bulletPrefab, t.position, transform.rotation);
+            b.Init(rb.velocity);
+            rb.velocity += transform.right * shootKnockback;
+            shootDelay = 1 / bulletsPerSecond;
+            currentEnergy -= energyCost;
+        }
+        shootDelay = 1 / bulletsPerSecond;
     }
 
 

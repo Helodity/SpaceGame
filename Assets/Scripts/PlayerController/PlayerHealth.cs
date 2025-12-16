@@ -51,7 +51,16 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     void modifyHealth(float amt)
     {
         currentHealth += amt;
+        if(currentHealth <= 0)
+        {
+            die();
+        }
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    }
+
+    void die()
+    {
+        gameObject.SetActive(false);
     }
 
 
