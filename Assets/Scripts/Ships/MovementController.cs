@@ -42,12 +42,13 @@ public abstract class MovementController : MonoBehaviour
         applyAcceleration(moveVec);
     }
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         Gizmos.DrawRay(transform.position, getForwardVector());
 
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Gizmos.DrawWireSphere(mouseWorldPos, 1);
+        Gizmos.DrawWireSphere(getTargetPos(), 1);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(Vector3.forward * getTargetAngle()) * Vector3.right * 4);
         if(rb)
         {
             Gizmos.color = Color.cyan;

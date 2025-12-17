@@ -13,7 +13,7 @@ public class TurnToPlayerMovement : MovementController
 
     protected override float getTargetAngle()
     {
-        return Vector2.SignedAngle(Vector2.right, leadTarget() - transform.position);
+        return Vector2.SignedAngle(Vector2.right, target.position - transform.position);
     }
 
     protected override Vector3 getTargetPos()
