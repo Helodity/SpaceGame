@@ -20,10 +20,10 @@ public class ShipWeapon : MonoBehaviour
         reloadTime -= Time.deltaTime;
     }
 
-    public void shoot(Vector2 shipVelocity)
+    public void shoot(Vector2 shipVelocity, Color shipCol)
     {
         Bullet b = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        b.Init(shipVelocity, transform.right, bulletData);
+        b.Init(shipVelocity, transform.right, bulletData, shipCol);
         reloadTime = 1 / shotsPerSecond;
     }
 

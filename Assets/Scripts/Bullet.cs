@@ -6,6 +6,14 @@ public class Bullet : MonoBehaviour
     [SerializeField] ParticleSystem collisionParticlePrefab;
     Rigidbody rb;
     Vector3 lastPos;
+
+    [Header("Visuals")]
+    [SerializeField] Light l;
+    [SerializeField] MeshRenderer mesh;
+    [SerializeField] float emissionIntensity;
+
+
+
     void Awake()
     {
         lastPos = transform.position;
@@ -24,15 +32,26 @@ public class Bullet : MonoBehaviour
         lastPos = transform.position;
     }
 
-    public void Init(Vector2 parentVelocity, Vector2 dir, BulletData settings)
+    public void Init(Vector2 parentVelocity, Vector2 dir, BulletData settings, Color shipCol)
     {
         data = settings;
         rb = GetComponent<Rigidbody>();
         rb.velocity = (dir * settings.speed) + parentVelocity;
+        InitVisuals(shipCol);
+    }
+
+    void InitVisuals(Color c)
+    {
+        l.color = c;
+        foreach(Material m in mesh.materials)
+        {
+            m.SetColor("_EmissionColor", c * emissionIntensity);
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
+        if(other.GetComponent<Bullet>() != null) return;
         IDamagable damagable = other.GetComponent<IDamagable>();
         if(damagable != null)
         {

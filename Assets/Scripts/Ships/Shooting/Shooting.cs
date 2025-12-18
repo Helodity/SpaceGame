@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +9,22 @@ public abstract class Shooting : MonoBehaviour
     [SerializeField] float energyRegen;
     float currentEnergy;
 
+    [Header("Visuals")]
+    [SerializeField] [ColorUsage(false,false)] Color color;
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] int matIndex;
+
     Rigidbody rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         currentEnergy = maxEnergy;
+        meshRenderer.materials[matIndex].color = new Color(
+            color.r/color.maxColorComponent,
+            color.g/color.maxColorComponent,
+            color.b/color.maxColorComponent
+        );
     }
 
     // Update is called once per frame
@@ -33,7 +42,7 @@ public abstract class Shooting : MonoBehaviour
         {
             if (w.canShoot(currentEnergy))
             {
-                w.shoot(rb.velocity);
+                w.shoot(rb.velocity, color);
                 currentEnergy -= w.getEnergyCost();
             }
         }

@@ -50,9 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c062a21ee84becd5a81da6bfe9a141a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
-  bulletSpeed: 15
   collisionParticlePrefab: {fileID: 3874745032101415767, guid: ddc711e3f6a0954b495677dcaa080552, type: 3}
+  l: {fileID: 5760354950575895460}
+  mesh: {fileID: 9061160554419144094}
+  emissionIntensity: 10
 --- !u!54 &610801540107005416
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -293,7 +294,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_Intensity: 1
-  m_Range: 1
+  m_Range: 2
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
