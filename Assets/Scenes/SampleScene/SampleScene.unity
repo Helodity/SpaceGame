@@ -5300,9 +5300,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons:
   - {fileID: 2041434490}
-  color: {r: 0.64150953, g: 8, b: 8, a: 1}
   maxEnergy: 100
   energyRegen: 15
+  color: {r: 1, g: 0, b: 0, a: 1}
+  meshRenderer: {fileID: 1105526944}
+  matIndex: 0
 --- !u!114 &153913789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13018,9 +13020,11 @@ MonoBehaviour:
   weapons:
   - {fileID: 1136227068}
   - {fileID: 1865361755}
-  color: {r: 31.832462, g: 0, b: 0, a: 1}
   maxEnergy: 100
   energyRegen: 10
+  color: {r: 0.8154151, g: 0.9056604, b: 0.2947668, a: 1}
+  meshRenderer: {fileID: 1760344838}
+  matIndex: 1
 --- !u!114 &1395430582
 MonoBehaviour:
   m_ObjectHideFlags: 0
